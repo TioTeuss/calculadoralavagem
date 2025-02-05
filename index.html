@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Lavagem</title>
+    <title>Calculadora de Lavagem</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -84,27 +84,38 @@
             font-size: 14px;
             color: #888;
         }
-        .modal {
-            display: none;
+        .help-button {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 10px;
+            bottom: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
             text-align: center;
-            box-shadow: 0px 6px 15px rgba(255, 255, 255, 0.1);
+            position: fixed;
         }
-        .modal button {
-            margin-top: 10px;
-            background: #d9534f;
+        .help-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 60px;
+            right: 20px;
+            background: #1e1e1e;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            width: 250px;
+            text-align: left;
+            font-size: 14px;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+        }
+        .help-button:hover + .help-tooltip {
+            display: block;
         }
     </style>
 </head>
@@ -117,19 +128,21 @@
         
         <div class="result-container">
             <h3>Resultados:</h3>
-            <div class="result"><span>Com Parceria (40%):</span> <span id="comParceria"></span></div>
-            <div class="result"><span>Sem Parceria (50%):</span> <span id="semParceria"></span></div>
+            <div class="result"><span>Com Parceria:</span> <span id="comParceria"></span></div>
+            <div class="result"><span>Sem Parceria:</span> <span id="semParceria"></span></div>
             <div class="result"><span>Lucro do Lavador:</span> <span id="lucroLavador"></span></div>
         </div>
         
         <div class="footer">Criado por: TioTeus para Sintonia RP.</div>
     </div>
 
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <p>A máquina só consegue limpar valores inteiros de 10k. Por favor, insira um valor válido!</p>
-            <button onclick="fecharModal()">OK</button>
-        </div>
+    <button class="help-button">?</button>
+    <div class="help-tooltip">
+        <strong>Como funciona?</strong><br>
+        - A máquina remove 30% do valor a cada 10k sujos.<br>
+        - Com parceria: recebe 60% do valor limpo.<br>
+        - Sem parceria: recebe 50% do valor limpo.<br>
+        - O lavador fica com o restante (40% ou 50%) - 30% da maquina.
     </div>
 
     <script>
@@ -141,7 +154,7 @@
             }
             
             if (valorSujo % 10000 !== 0) {
-                document.getElementById("modal").style.display = "flex";
+                alert("A máquina só aceita valores inteiros múltiplos de 10k.");
                 return;
             }
             
@@ -154,10 +167,6 @@
             document.getElementById("comParceria").innerText = `R$ ${comParceria.toFixed(2)}`;
             document.getElementById("semParceria").innerText = `R$ ${semParceria.toFixed(2)}`;
             document.getElementById("lucroLavador").innerText = `R$ ${lucroLavadorCom.toFixed(2)} (com parceria) | R$ ${lucroLavadorSem.toFixed(2)} (sem parceria)`;
-        }
-
-        function fecharModal() {
-            document.getElementById("modal").style.display = "none";
         }
     </script>
 </body>
